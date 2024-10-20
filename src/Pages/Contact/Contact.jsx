@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Navbar from "../../Components/Navbar/Navbar";
 import Footer from "../../Components/footer/Footer";
 import software from "../../Images/software.jpg";
-import mobile1 from "../../images/mobile1.jpg";
+import mobile1 from "../../Images/mobile1.jpg";
 import { MdLocationOn, MdEmail, MdPhone } from "react-icons/md";
 
 function Contact() {
