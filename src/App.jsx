@@ -1,4 +1,3 @@
-
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // import "./App.css";
 // import Card1 from "./Components/Card1/Card1";
@@ -11,17 +10,18 @@ import About from "./Pages/About/About";
 import Services from "./Pages/Services/Services";
 import Blog from "./Pages/Blog/Blog";
 import GetStarted from "./Components/GetStarted/GetStarted";
+
 function App() {
   return (
     <div>
       <Router>
         <Routes>
-          <Route exact path="/" Component={Index} />
-          <Route path="/contact" Component={Contact} />
-          <Route path="/about" Component={About} />
-          <Route path="/services" Component={Services} />
-          <Route path="/blog" Component={Blog} />
-          <Route path="/getstarted" Component={GetStarted} />
+          <Route exact path="/" element={<Index />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/getstarted" element={<GetStarted />} />
         </Routes>
       </Router>
     </div>
