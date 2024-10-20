@@ -1,0 +1,10 @@
+.modal-content {
+    max-height: 150px; /* Initial height when content is hidden */
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  
+  .modal-content.expanded {
+    max-height: none; /* Full height when content is expanded */
+  }
+  
