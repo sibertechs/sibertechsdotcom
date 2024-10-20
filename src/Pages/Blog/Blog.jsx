@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Navbar from "../../Components/Navbar/Navbar";
-import Footer from "../../Components/Footer/Footer";
+import Footer from "../../Components/footer/Footer";
 import "../../Components/Modal/ModalCss.css";
 import artificial from "../../Images/artificial.jpg";
 import cloud from "../../Images/cloud.jpg";
