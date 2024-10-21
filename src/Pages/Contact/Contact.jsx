@@ -13,6 +13,9 @@ function Contact() {
     message: "",
   });
 
+  const [loading, setLoading] = useState(false); // Loading state to disable button
+  const [errorMessage, setErrorMessage] = useState(""); // Error state
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -22,9 +25,25 @@ function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Set loading to true when submitting
+    setErrorMessage(""); // Clear any previous error
+
+    // Basic Validation for the email and phone fields
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[0-9]{10,15}$/;
+    if (!emailRegex.test(formData.email)) {
+      setErrorMessage("Please enter a valid email address.");
+      setLoading(false);
+      return;
+    }
+    if (!phoneRegex.test(formData.phone)) {
+      setErrorMessage("Please enter a valid phone number (10-15 digits).");
+      setLoading(false);
+      return;
+    }
 
     try {
-      const response = await fetch("", {
+      const response = await fetch("https://contact-backend-581d.onrender.com/contactgit add .", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -44,11 +63,13 @@ function Contact() {
           message: "",
         });
       } else {
-        // alert(result.error || "Failed to send message. Please try again.");
+        setErrorMessage(result.error || "Failed to send message. Please try again.");
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("");
+      setErrorMessage("Something went wrong. Please check your connection or try again later.");
+    } finally {
+      setLoading(false); // End loading state
     }
   };
 
@@ -69,8 +90,7 @@ function Contact() {
               Get In Touch
             </h2>
             <p className="max-w-2xl mx-auto mb-8 text-lg text-white md:text-xl">
-              We’re here to assist you with any inquiries or support. Fill out
-              the form below and we’ll get back to you as soon as possible.
+              We’re here to assist you with any inquiries or support. Fill out the form below and we’ll get back to you as soon as possible.
             </p>
           </div>
         </div>
@@ -80,12 +100,8 @@ function Contact() {
           <div className="grid gap-12 lg:grid-cols-2">
             {/* Contact Form Section */}
             <div className="w-full max-w-xl p-8 mx-auto bg-white border border-gray-300 rounded-lg shadow-lg">
-              <h4 className="mb-4 text-base font-medium text-blue-600">
-                Contact Us
-              </h4>
-              <h2 className="mb-6 text-3xl font-semibold text-gray-900">
-                Reach Out To Us
-              </h2>
+              <h4 className="mb-4 text-base font-medium text-blue-600">Contact Us</h4>
+              <h2 className="mb-6 text-3xl font-semibold text-gray-900">Reach Out To Us</h2>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <input
                   type="text"
@@ -95,6 +111,8 @@ function Contact() {
                   value={formData.name}
                   onChange={handleChange}
                   required
+                  aria-required="true"
+                  aria-label="Name"
                 />
                 <input
                   type="email"
@@ -104,6 +122,8 @@ function Contact() {
                   value={formData.email}
                   onChange={handleChange}
                   required
+                  aria-required="true"
+                  aria-label="Email"
                 />
                 <input
                   type="tel"
@@ -113,6 +133,8 @@ function Contact() {
                   value={formData.phone}
                   onChange={handleChange}
                   required
+                  aria-required="true"
+                  aria-label="Phone"
                 />
                 <textarea
                   id="message"
@@ -122,27 +144,31 @@ function Contact() {
                   value={formData.message}
                   onChange={handleChange}
                   required
+                  aria-required="true"
+                  aria-label="Message"
                 />
                 <button
                   type="submit"
-                  className="w-full h-12 text-base font-semibold text-center text-white transition-colors bg-blue-600 rounded-lg shadow-md hover:bg-blue-700"
+                  name="submit"
+                  className={`w-full h-12 text-base font-semibold text-center text-white transition-colors bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 ${loading ? 'cursor-not-allowed opacity-50' : ''}`}
+                  disabled={loading} // Disable button during loading
                 >
-                  Send Message
+                  {loading ? 'Sending...' : 'Send Message'}
                 </button>
               </form>
+
+              {/* Error Message */}
+              {errorMessage && (
+                <p className="mt-4 text-sm text-red-500">{errorMessage}</p>
+              )}
             </div>
 
             {/* Additional Information Section */}
             <div className="w-full max-w-lg p-8 mx-auto bg-white border border-gray-300 rounded-lg shadow-lg">
-              <h4 className="mb-4 text-base font-medium text-blue-600">
-                Our Location
-              </h4>
-              <h2 className="mb-6 text-3xl font-semibold text-gray-900">
-                Find Us Here
-              </h2>
+              <h4 className="mb-4 text-base font-medium text-blue-600">Our Location</h4>
+              <h2 className="mb-6 text-3xl font-semibold text-gray-900">Find Us Here</h2>
               <p className="mb-6 text-lg text-gray-700">
-                Our office is located in the heart of the city. Visit us to
-                discuss your project or simply drop by to say hello!
+                Our office is located in the heart of the city. Visit us to discuss your project or simply drop by to say hello!
               </p>
               <div className="flex flex-col mb-6 space-y-4">
                 <div className="flex items-center space-x-3">
